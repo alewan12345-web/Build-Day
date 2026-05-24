@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Northline Studio Hub</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <h1>Northline Studio Hub</h1>
+          <p>Ideas, schedules, and references in one workspace.</p>
+        </div>
+
+        <nav class="view-nav" aria-label="Views">
+          <button class="view-button active" data-view-target="board-view" type="button">
+            <span aria-hidden="true">&#9638;</span>
+            <span>Board</span>
+          </button>
+          <button class="view-button" data-view-target="schedule-view" type="button">
+            <span aria-hidden="true">&#9716;</span>
+            <span>Schedule</span>
+          </button>
+          <button class="view-button" data-view-target="library-view" type="button">
+            <span aria-hidden="true">&#9001;</span>
+            <span>Library</span>
+          </button>
+          <button class="view-button" data-view-target="archive-view" type="button">
+            <span aria-hidden="true">&#9635;</span>
+            <span>Archive</span>
+          </button>
+          <button class="view-button" data-view-target="activity-view" type="button">
+            <span aria-hidden="true">&#8801;</span>
+            <span>Activity</span>
+          </button>
+          <button class="view-button" data-view-target="whiteboard-view" type="button">
+            <span aria-hidden="true">&#10021;</span>
+            <span>Whiteboard</span>
+          </button>
+        </nav>
+
+        <section class="filters" aria-label="Filters">
+          <h2>Filter Items</h2>
+          <label class="field">
+            <span>Search</span>
+            <input id="search-input" type="search" placeholder="Find by title, notes, or tags" />
+          </label>
+          <label class="field">
+            <span>Source</span>
+            <select id="source-filter">
+              <option value="all">All sources</option>
+              <option value="email">Email</option>
+              <option value="call-note">Client Call Note</option>
+              <option value="screenshot">Screenshot / Visual Reference</option>
+              <option value="google-doc">Google Doc / Slide / Sheet</option>
+              <option value="idea">Studio Idea</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Owner</span>
+            <select id="owner-filter">
+              <option value="all">All team members</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Status</span>
+            <select id="status-filter">
+              <option value="all">All statuses</option>
+              <option value="Inbox">Inbox</option>
+              <option value="Planned">Planned</option>
+              <option value="Designing">Designing</option>
+              <option value="Client Review">Client Review</option>
+              <option value="Done">Done</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Priority</span>
+            <select id="priority-filter">
+              <option value="all">All priorities</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </label>
+          <label class="field checkbox-field">
+            <input id="favorites-only" type="checkbox" />
+            <span>Favorites only</span>
+          </label>
+          <button id="clear-filters" type="button" class="ghost-button">
+            <span aria-hidden="true">&#8634;</span>
+            <span>Clear</span>
+          </button>
+        </section>
+
+        <section class="filters" aria-label="Data">
+          <h2>Data</h2>
+          <button id="export-json" type="button" class="ghost-button">Export JSON</button>
+          <label class="field">
+            <span>Import JSON</span>
+            <input id="import-json" type="file" accept="application/json" />
+          </label>
+          <button id="seed-demo" type="button" class="ghost-button">Load Demo Data</button>
+        </section>
+      </aside>
+
+      <main class="main-panel">
+        <header class="panel-header">
+          <div class="metrics" aria-live="polite">
+            <article class="metric">
+              <p class="metric-label">Open Items</p>
+              <p class="metric-value" id="open-count">0</p>
+            </article>
+            <article class="metric">
+              <p class="metric-label">Due This Week</p>
+              <p class="metric-value" id="week-count">0</p>
+            </article>
+            <article class="metric">
+              <p class="metric-label">Visual References</p>
+              <p class="metric-value" id="reference-count">0</p>
+            </article>
+            <article class="metric">
+              <p class="metric-label">Favorites</p>
+              <p class="metric-value" id="favorite-count">0</p>
+            </article>
+            <article class="metric">
+              <p class="metric-label">Archived</p>
+              <p class="metric-value" id="archive-count">0</p>
+            </article>
+            <article class="metric">
+              <p class="metric-label">Overdue</p>
+              <p class="metric-value" id="overdue-count">0</p>
+            </article>
+          </div>
+        </header>
+
+        <section class="bulk-panel">
+          <p id="selection-count">Selected: 0</p>
+          <div class="bulk-actions">
+            <button id="bulk-done" class="ghost-button" type="button">Mark Done</button>
+            <button id="bulk-archive" class="ghost-button" type="button">Archive</button>
+            <button id="bulk-owner" class="ghost-button" type="button">Reassign</button>
+            <button id="clear-selection" class="ghost-button" type="button">Clear Selection</button>
+          </div>
+        </section>
+
+        <section class="capture-panel" aria-label="Quick Capture">
+          <div class="capture-header">
+            <h2>Quick Capture</h2>
+            <p>Capture any thought, request, or reference while it is fresh.</p>
+          </div>
+          <form id="capture-form" class="capture-form">
+            <input type="hidden" id="item-id" />
+            <label class="field">
+              <span>Title</span>
+              <input id="item-title" type="text" maxlength="120" required />
+            </label>
+            <label class="field">
+              <span>Source</span>
+              <select id="item-source" required>
+                <option value="email">Email</option>
+                <option value="call-note">Client Call Note</option>
+                <option value="screenshot">Screenshot / Visual Reference</option>
+                <option value="google-doc">Google Doc / Slide / Sheet</option>
+                <option value="idea">Studio Idea</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Project</span>
+              <input id="item-project" type="text" maxlength="80" placeholder="Example: Atlas Packaging" />
+            </label>
+            <label class="field">
+              <span>Owner</span>
+              <select id="item-owner" required></select>
+            </label>
+            <label class="field">
+              <span>Status</span>
+              <select id="item-status">
+                <option value="Inbox">Inbox</option>
+                <option value="Planned">Planned</option>
+                <option value="Designing">Designing</option>
+                <option value="Client Review">Client Review</option>
+                <option value="Done">Done</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Priority</span>
+              <select id="item-priority">
+                <option value="Low">Low</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="High">High</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Due Date</span>
+              <input id="item-due-date" type="date" />
+            </label>
+            <label class="field">
+              <span>Reminder</span>
+              <input id="item-reminder-date" type="date" />
+            </label>
+            <label class="field">
+              <span>Effort (hours)</span>
+              <input id="item-effort" type="number" min="0" max="200" step="0.5" value="1" />
+            </label>
+            <label class="field">
+              <span>Reference Link</span>
+              <input id="item-reference" type="url" placeholder="https://..." />
+            </label>
+            <label class="field field-wide">
+              <span>Screenshot</span>
+              <input id="item-image" type="file" accept="image/*" />
+            </label>
+            <label class="field field-wide">
+              <span>Tags</span>
+              <input id="item-tags" type="text" maxlength="80" placeholder="brand, homepage, motion" />
+            </label>
+            <label class="field field-wide">
+              <span>Notes</span>
+              <textarea id="item-notes" rows="3" maxlength="1000"></textarea>
+            </label>
+            <label class="field field-wide">
+              <span>Checklist (one item per line)</span>
+              <textarea id="item-checklist" rows="3" maxlength="1200"></textarea>
+            </label>
+            <label class="field checkbox-field">
+              <input id="item-favorite" type="checkbox" />
+              <span>Favorite</span>
+            </label>
+            <label class="field checkbox-field">
+              <input id="item-archived" type="checkbox" />
+              <span>Archived</span>
+            </label>
+            <div class="form-actions">
+              <button id="save-button" class="primary-button" type="submit">
+                <span aria-hidden="true">+</span>
+                <span>Add Item</span>
+              </button>
+              <button id="cancel-edit" class="ghost-button hidden" type="button">
+                <span aria-hidden="true">&times;</span>
+                <span>Cancel Edit</span>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section id="board-view" class="view-panel active" aria-label="Board View"></section>
+        <section id="schedule-view" class="view-panel" aria-label="Schedule View"></section>
+        <section id="library-view" class="view-panel" aria-label="Library View"></section>
+        <section id="archive-view" class="view-panel" aria-label="Archive View"></section>
+        <section id="activity-view" class="view-panel" aria-label="Activity View"></section>
+        <section id="whiteboard-view" class="view-panel" aria-label="Whiteboard View">
+          <div class="whiteboard-toolbar">
+            <button id="wb-pen" class="ghost-button" type="button">Pen</button>
+            <button id="wb-eraser" class="ghost-button" type="button">Eraser</button>
+            <label class="field">
+              <span>Color</span>
+              <input id="wb-color" type="color" value="#1f2937" />
+            </label>
+            <label class="field">
+              <span>Size</span>
+              <input id="wb-size" type="range" min="1" max="24" value="3" />
+            </label>
+            <button id="wb-clear" class="ghost-button" type="button">Clear Canvas</button>
+            <button id="wb-add-note" class="ghost-button" type="button">Add Sticky</button>
+          </div>
+          <div class="whiteboard-stage">
+            <canvas id="whiteboard-canvas" width="1200" height="620"></canvas>
+            <div id="sticky-layer" class="sticky-layer"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="item-card-template">
+      <article class="item-card">
+        <label class="card-select">
+          <input type="checkbox" class="select-item" />
+          <span>Select</span>
+        </label>
+        <header>
+          <h3 class="item-title"></h3>
+          <p class="item-meta"></p>
+        </header>
+        <p class="item-notes"></p>
+        <div class="item-chips"></div>
+        <div class="item-link-wrap"></div>
+        <div class="card-actions">
+          <button type="button" class="icon-button move-back" title="Move back">
+            <span aria-hidden="true">&larr;</span>
+          </button>
+          <button type="button" class="icon-button move-forward" title="Move forward">
+            <span aria-hidden="true">&rarr;</span>
+          </button>
+          <button type="button" class="icon-button edit-item" title="Edit item">
+            <span aria-hidden="true">&#9998;</span>
+          </button>
+          <button type="button" class="icon-button delete-item" title="Delete item">
+            <span aria-hidden="true">&#128465;</span>
+          </button>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
