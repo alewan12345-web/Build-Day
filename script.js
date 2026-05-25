@@ -85,6 +85,57 @@ const morningPlan = document.getElementById("morningPlan");
 const noonPlan = document.getElementById("noonPlan");
 const eveningPlan = document.getElementById("eveningPlan");
 const dayMilestone = document.getElementById("dayMilestone");
+const metricValues = document.querySelectorAll(".metric-value");
+
+const experienceTracks = [
+  {
+    title: "Creator Track",
+    summary:
+      "For students who love world building, storytelling, and level design. This track teaches them to design meaningful player journeys.",
+    blockOne:
+      "Morning: Theme design, map layout, and visual storytelling with playable goals.",
+    blockTwo:
+      "Noon: Build sprint with guided scene construction and clarity-first gameplay flow.",
+    blockThree:
+      "Evening: Peer feedback on creativity, accessibility, and player onboarding.",
+    outcome:
+      "Outcome: A team-designed world with clear objectives, visual identity, and test notes."
+  },
+  {
+    title: "Code Track",
+    summary:
+      "For students who want deep technical practice in Lua scripting and debugging. They learn to build reliable mechanics in teams.",
+    blockOne:
+      "Morning: Lua fundamentals, events, functions, and structured debugging habits.",
+    blockTwo:
+      "Noon: Build and test core mechanics, checkpoints, UI logic, and game flow rules.",
+    blockThree:
+      "Evening: QA review, bug triage, and iterative improvement with mentor support.",
+    outcome:
+      "Outcome: A functioning scripted prototype with documented fixes and iteration history."
+  },
+  {
+    title: "Founder Track",
+    summary:
+      "For students excited by product thinking, communication, and entrepreneurship. They learn to connect user needs to game ideas.",
+    blockOne:
+      "Morning: Audience research, value proposition drafting, and role assignment.",
+    blockTwo:
+      "Noon: Product pitch development, team coordination, and milestone planning.",
+    blockThree:
+      "Evening: Showcase rehearsal with confidence coaching and feedback-driven revision.",
+    outcome:
+      "Outcome: A concise product pitch and roadmap linked to a student-built game concept."
+  }
+];
+
+const expTabs = document.querySelectorAll(".exp-tab");
+const expTitle = document.getElementById("expTitle");
+const expSummary = document.getElementById("expSummary");
+const expBlockOne = document.getElementById("expBlockOne");
+const expBlockTwo = document.getElementById("expBlockTwo");
+const expBlockThree = document.getElementById("expBlockThree");
+const expOutcome = document.getElementById("expOutcome");
 
 const studentsInput = document.getElementById("students");
 const budgetInput = document.getElementById("budgetPerStudent");
@@ -125,6 +176,76 @@ function buildTabs() {
   });
 }
 
+function renderExperience(index) {
+  const track = experienceTracks[index];
+  if (!track || !expTitle) {
+    return;
+  }
+
+  expTitle.textContent = track.title;
+  expSummary.textContent = track.summary;
+  expBlockOne.textContent = track.blockOne;
+  expBlockTwo.textContent = track.blockTwo;
+  expBlockThree.textContent = track.blockThree;
+  expOutcome.textContent = track.outcome;
+
+  expTabs.forEach((button, tabIndex) => {
+    button.setAttribute("aria-selected", String(tabIndex === index));
+  });
+}
+
+function animateMetric(node, target) {
+  const duration = 1000;
+  const start = performance.now();
+
+  function step(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const value = Math.round(target * progress);
+    node.textContent = target === 100 ? `${value}%` : `${value}`;
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    }
+  }
+
+  requestAnimationFrame(step);
+}
+
+function setupMetricAnimation() {
+  if (metricValues.length === 0) {
+    return;
+  }
+
+  const animateAll = () => {
+    metricValues.forEach((node) => {
+      const target = Number(node.dataset.count);
+      if (!Number.isFinite(target)) {
+        return;
+      }
+      animateMetric(node, target);
+    });
+  };
+
+  const metricsSection = document.querySelector(".metrics-grid");
+  if (!metricsSection || typeof IntersectionObserver === "undefined") {
+    animateAll();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateAll();
+          observer.disconnect();
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  observer.observe(metricsSection);
+}
+
 function updateBudget() {
   const students = Number(studentsInput.value);
   const budgetPerStudent = Number(budgetInput.value);
@@ -157,6 +278,16 @@ function updateBudget() {
 buildTabs();
 renderDay(0);
 updateBudget();
+setupMetricAnimation();
+
+if (expTabs.length > 0) {
+  expTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      renderExperience(Number(tab.dataset.track));
+    });
+  });
+  renderExperience(0);
+}
 
 [studentsInput, budgetInput, hotelInput].forEach((input) => {
   input.addEventListener("input", updateBudget);

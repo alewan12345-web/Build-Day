@@ -19,8 +19,11 @@
       </a>
       <nav class="nav">
         <a href="#why">Why Schools</a>
+        <a href="#team">Team</a>
+        <a href="#experience">Experience</a>
         <a href="#schedule">Schedule</a>
         <a href="#budget">Budget</a>
+        <a href="#faq">FAQ</a>
       </nav>
       <a href="#partner" class="btn btn-ghost">
         <i data-lucide="school" aria-hidden="true"></i>
@@ -89,6 +92,83 @@
       </div>
     </section>
 
+    <section id="team" class="section section-team">
+      <div class="container">
+        <h2>Meet the Build Day Leadership Team</h2>
+        <p class="section-lead">
+          Schools get a full partner team: founders, cofounders, curriculum leads, safety coordinators, and experienced mentors.
+        </p>
+        <div class="team-grid">
+          <article class="team-card">
+            <p class="team-label">Founder</p>
+            <h3>Jordan Reyes</h3>
+            <p class="team-title">Founder & Program Architect</p>
+            <p>Designed district-level creator programs and coached over 4,000 students in game design and coding pathways.</p>
+          </article>
+          <article class="team-card">
+            <p class="team-label">Co-Founder</p>
+            <h3>Amina Patel</h3>
+            <p class="team-title">Co-Founder & Curriculum Lead</p>
+            <p>Leads Lua progression from beginner to advanced, with structured rubrics for assessment and student growth tracking.</p>
+          </article>
+          <article class="team-card">
+            <p class="team-label">Co-Founder</p>
+            <h3>Marcus Chen</h3>
+            <p class="team-title">Co-Founder & School Success Lead</p>
+            <p>Works directly with principals and teachers on logistics, compliance, parent communication, and reporting.</p>
+          </article>
+          <article class="team-card">
+            <p class="team-label">Mentor Director</p>
+            <h3>Sofia Alvarez</h3>
+            <p class="team-title">Head of Mentor Experience</p>
+            <p>Trains the mentor cohort in youth coaching, inclusive facilitation, and project-based learning best practices.</p>
+          </article>
+        </div>
+        <div class="metrics-grid">
+          <article class="metric-card">
+            <p class="metric-value" data-count="7">0</p>
+            <p class="metric-label">Day immersive build program</p>
+          </article>
+          <article class="metric-card">
+            <p class="metric-value" data-count="50">0</p>
+            <p class="metric-label">Mentors with creator teaching background</p>
+          </article>
+          <article class="metric-card">
+            <p class="metric-value" data-count="8">0</p>
+            <p class="metric-label">Students per mentor supervision target</p>
+          </article>
+          <article class="metric-card">
+            <p class="metric-value" data-count="100">0</p>
+            <p class="metric-label">Percent creation-first (no free-play blocks)</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="section section-light">
+      <div class="container">
+        <h2>What Students Experience</h2>
+        <p class="section-lead">
+          Build Day adapts to each learner with three guided tracks while keeping shared team milestones.
+        </p>
+        <div class="experience-switch" role="tablist" aria-label="Experience tracks">
+          <button class="exp-tab" type="button" role="tab" data-track="0" aria-selected="true">Creator Track</button>
+          <button class="exp-tab" type="button" role="tab" data-track="1" aria-selected="false">Code Track</button>
+          <button class="exp-tab" type="button" role="tab" data-track="2" aria-selected="false">Founder Track</button>
+        </div>
+        <article class="experience-panel">
+          <h3 id="expTitle"></h3>
+          <p id="expSummary"></p>
+          <div class="experience-list">
+            <p id="expBlockOne"></p>
+            <p id="expBlockTwo"></p>
+            <p id="expBlockThree"></p>
+          </div>
+          <p id="expOutcome" class="milestone"></p>
+        </article>
+      </div>
+    </section>
+
     <section class="section section-media">
       <div class="container media-grid">
         <img src="https://images.pexels.com/photos/7869084/pexels-photo-7869084.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Students building a robotics-style project together">
@@ -128,6 +208,33 @@
       </div>
     </section>
 
+    <section class="section section-light">
+      <div class="container">
+        <h2>Safety, Structure, and School Confidence</h2>
+        <p class="section-lead">
+          The workshop is built for school trust: clear supervision, clear goals, and clear communication every day.
+        </p>
+        <div class="ops-grid">
+          <article class="ops-card">
+            <h3>Academic-First Agenda</h3>
+            <p>Every block is focused on design, coding, testing, reflection, and presentation. Recreational gameplay is excluded.</p>
+          </article>
+          <article class="ops-card">
+            <h3>Supervision & Safeguards</h3>
+            <p>Target mentor ratio is 1:8. Adults are assigned by room and group, with attendance and transition checks.</p>
+          </article>
+          <article class="ops-card">
+            <h3>Daily Progress Reports</h3>
+            <p>Schools receive evening summaries with project milestones, student participation notes, and next-day goals.</p>
+          </article>
+          <article class="ops-card">
+            <h3>Parent-Ready Communication</h3>
+            <p>Families get a simple overview of skills learned, artifacts built, and optional hotel logistics.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section id="budget" class="section section-light">
       <div class="container">
         <h2>School-Friendly Cost Planner</h2>
@@ -155,6 +262,83 @@
           <p><strong>Estimated Cost Per Student:</strong> <span id="costPerStudent">$0</span></p>
           <p><strong>School Budget Per Student:</strong> <span id="budgetPerStudentText">$0</span></p>
           <p id="budgetStatus" class="budget-status"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="container">
+        <h2>What Schools and Students Take Home</h2>
+        <p class="section-lead">
+          Build Day leaves schools with visible outcomes, not just attendance.
+        </p>
+        <div class="benefit-grid">
+          <article class="benefit-card">
+            <h3>Playable Team Projects</h3>
+            <p>Every group finishes a working game prototype tested by peers on final day.</p>
+          </article>
+          <article class="benefit-card">
+            <h3>Portfolio Evidence</h3>
+            <p>Students leave with project notes, team roles, and measurable artifacts for future applications.</p>
+          </article>
+          <article class="benefit-card">
+            <h3>Career Awareness</h3>
+            <p>Learners connect technical skills to future opportunities in software, design, product, and startups.</p>
+          </article>
+          <article class="benefit-card">
+            <h3>Teacher Enablement</h3>
+            <p>Educators get reusable activity templates and pacing models to extend creator learning after Build Day.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-light">
+      <div class="container">
+        <h2>Voices From Pilot Schools</h2>
+        <p class="section-lead">
+          The strongest signal is student confidence and school buy-in after one week.
+        </p>
+        <div class="testimonials-grid">
+          <article class="quote-card">
+            <p>"Our students went from consumers to creators in a week. The structure made it easy for teachers to support."</p>
+            <p class="quote-by">Principal, Middle School Partner</p>
+          </article>
+          <article class="quote-card">
+            <p>"The founder and cofounder team handled logistics like pros. We had daily updates and zero confusion."</p>
+            <p class="quote-by">District STEM Coordinator</p>
+          </article>
+          <article class="quote-card">
+            <p>"Students practiced coding and communication at the same time. The peer testing day was outstanding."</p>
+            <p class="quote-by">Computer Science Teacher</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section section-faq">
+      <div class="container">
+        <h2>Frequently Asked Questions</h2>
+        <p class="section-lead">
+          Quick answers for school leaders, teachers, and families.
+        </p>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Is this a gaming event or a learning event?</summary>
+            <p>It is a structured learning event. Students build projects, learn Lua, and present outcomes. Recreational gameplay is not part of the schedule.</p>
+          </details>
+          <details class="faq-item">
+            <summary>When do group projects begin?</summary>
+            <p>Students split into project groups on Day 3 (Tuesday), then continue collaborative production through Saturday showcase day.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What does the optional hotel choice cost?</summary>
+            <p>Students can choose to stay at home or in the optional hotel arrangement for a $10 fee per student.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do schools monitor progress?</summary>
+            <p>Schools receive daily summaries of milestones, participation, and project status from the program team.</p>
+          </details>
         </div>
       </div>
     </section>
